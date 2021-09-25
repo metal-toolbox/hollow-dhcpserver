@@ -1,0 +1,3 @@
+server4:
+  plugins:
+    - hollow: http://serverservice:8000
