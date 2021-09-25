@@ -10,6 +10,7 @@ import (
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
+// DHCPAttributeNamespace is the namespace that is searched to find lease information
 const DHCPAttributeNamespace string = "sh.hollow.dhcpserver.lease"
 
 func getV4Config(mac string) (*V4Config, string, error) {

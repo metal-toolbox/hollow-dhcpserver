@@ -6,11 +6,11 @@ replace go.hollow.sh/serverservice => /Users/nicole/golang/src/go.hollow.sh/serv
 
 require (
 	github.com/coredhcp/coredhcp v0.0.0-20210830115404-2176f33418f4
-	github.com/google/uuid v1.2.0
 	github.com/insomniacslk/dhcp v0.0.0-20210827173440-b95caade3eac
 	github.com/sirupsen/logrus v1.7.0
 	github.com/spf13/pflag v1.0.6-0.20201009195203-85dd5c8bc61c
 	go.hollow.sh/serverservice v0.12.0
+	golang.org/x/oauth2 v0.0.0-20210402161424-2e8d93401602
 )
 
 require (
@@ -26,6 +26,7 @@ require (
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/gopacket v1.1.19 // indirect
+	github.com/google/uuid v1.2.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/leodido/go-urn v1.2.0 // indirect
@@ -59,6 +60,7 @@ require (
 	golang.org/x/term v0.0.0-20201210144234-2321bbc49cbf // indirect
 	golang.org/x/text v0.3.6 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.26.0 // indirect
 	gopkg.in/ini.v1 v1.63.1 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect

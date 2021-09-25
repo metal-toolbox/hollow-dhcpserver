@@ -3,17 +3,17 @@ package plugin
 import "net"
 
 type DHCPConfig struct {
-	V4Configs []V4Config `json:"ipv4"`
-	V6Configs []V6Config `json:"ipv6"`
+	V4Configs []V4Config `json:"ipv4,omitempty"`
+	V6Configs []V6Config `json:"ipv6,omitempty"`
 }
 
 type V4Config struct {
 	MacAddress string   `json:"mac_address"`
 	CIDR       string   `json:"cidr"`
 	Gateway    net.IP   `json:"gateway"`
-	Resolvers  []net.IP `json:"resolvers"`
-	BootServer string   `json:"boot_server"`
-	BootFile   string   `json:"boot_file"`
+	Resolvers  []net.IP `json:"resolvers,omitempty"`
+	BootServer string   `json:"boot_server,omitempty"`
+	BootFile   string   `json:"boot_file,omitempty"`
 }
 
 type V6Config struct {
@@ -21,7 +21,7 @@ type V6Config struct {
 	CIDR       string   `json:"cidr"`
 	Netmask    string   `json:"netmask"`
 	Gateway    string   `json:"gateway"`
-	Resolvers  []string `json:"resolvers"`
-	BootServer string   `json:"boot_server"`
-	BootFile   string   `json:"boot_file"`
+	Resolvers  []string `json:"resolvers,omitempty"`
+	BootServer string   `json:"boot_server,omitempty"`
+	BootFile   string   `json:"boot_file,omitempty"`
 }
