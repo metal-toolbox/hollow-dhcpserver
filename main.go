@@ -26,6 +26,7 @@ import (
 	pl_sleep "github.com/coredhcp/coredhcp/plugins/sleep"
 	pl_staticroute "github.com/coredhcp/coredhcp/plugins/staticroute"
 	pl_hollowdhcp "go.hollow.sh/dhcpserver/pkg/plugin"
+	"go.hollow.sh/toolbox/version"
 
 	"github.com/sirupsen/logrus"
 	flag "github.com/spf13/pflag"
@@ -83,6 +84,10 @@ func main() {
 	}
 
 	log := logger.GetLogger("main")
+
+	// Added outside of coredhcp generator:
+	log.Infof("Hollow DHCP Server Version Info: %s", version.String())
+
 	fn, ok := logLevels[*flagLogLevel]
 	if !ok {
 		log.Fatalf("Invalid log level '%s'. Valid log levels are %v", *flagLogLevel, getLogLevels())

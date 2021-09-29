@@ -9,6 +9,7 @@ require (
 	github.com/spf13/pflag v1.0.6-0.20201009195203-85dd5c8bc61c
 	github.com/stretchr/testify v1.7.0
 	go.hollow.sh/serverservice v0.13.0
+	go.hollow.sh/toolbox v0.0.0-20210826144247-5ed6c7643625
 	golang.org/x/oauth2 v0.0.0-20210402161424-2e8d93401602
 )
 
@@ -54,7 +55,6 @@ require (
 	github.com/volatiletech/sqlboiler/v4 v4.6.0 // indirect
 	github.com/volatiletech/strmangle v0.0.1 // indirect
 	github.com/willf/bitset v1.1.11 // indirect
-	go.hollow.sh/toolbox v0.0.0-20210826144247-5ed6c7643625 // indirect
 	golang.org/x/crypto v0.0.0-20210506145944-38f3c27a63bf // indirect
 	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4 // indirect
 	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
