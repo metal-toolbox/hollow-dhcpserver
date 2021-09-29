@@ -11,11 +11,14 @@ import (
 	"github.com/coredhcp/coredhcp/handler"
 	"github.com/coredhcp/coredhcp/logger"
 	"github.com/coredhcp/coredhcp/plugins"
+	"github.com/friendsofgo/errors"
 	"github.com/insomniacslk/dhcp/dhcpv4"
 	"github.com/insomniacslk/dhcp/dhcpv6"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 	"golang.org/x/oauth2/clientcredentials"
 )
+
+const defaultLeaseDuration time.Duration = 3600 * time.Second
 
 var log = logger.GetLogger("plugins/hollow")
 
@@ -37,9 +40,10 @@ func initHollowClient(args ...string) error {
 	if len(args) != 1 {
 		return fmt.Errorf("got %d arguments, want 1", len(args))
 	}
+
 	uri, err := url.Parse(args[0])
 	if err != nil {
-		return fmt.Errorf("invalid URL '%s': %v", args[0], err)
+		return errors.Wrapf(err, "invalid URL '%s'", args[0])
 	}
 
 	if os.Getenv("HOLLOWDHCP_AUTH_TOKEN") != "" {
@@ -50,22 +54,22 @@ func initHollowClient(args ...string) error {
 
 	oidcIssuer := os.Getenv("HOLLOWDHCP_OIDC_ISSUER")
 	if oidcIssuer == "" {
-		return fmt.Errorf("expected HOLLOWDHCP_OIDC_ISSUER to be set")
+		return &ErrMissingEnvVariable{EnvVar: "HOLLOWDHCP_OIDC_ISSUER"}
 	}
 
 	oidcClientID := os.Getenv("HOLLOWDHCP_OIDC_CLIENT_ID")
 	if oidcClientID == "" {
-		return fmt.Errorf("expected HOLLOWDHCP_OIDC_CLIENT_ID to be set")
+		return &ErrMissingEnvVariable{EnvVar: "HOLLOWDHCP_OIDC_CLIENT_ID"}
 	}
 
 	oidcClientSecret := os.Getenv("HOLLOWDHCP_OIDC_CLIENT_SECRET")
 	if oidcClientSecret == "" {
-		return fmt.Errorf("expected HOLLOWDHCP_OIDC_CLIENT_SECRET to be set")
+		return &ErrMissingEnvVariable{EnvVar: "HOLLOWDHCP_OIDC_CLIENT_SECRET"}
 	}
 
 	oidcAudience := os.Getenv("HOLLOWDHCP_OIDC_AUDIENCE")
 	if oidcAudience == "" {
-		return fmt.Errorf("expected HOLLOWDHCP_OIDC_AUDIENCE to be set")
+		return &ErrMissingEnvVariable{EnvVar: "HOLLOWDHCP_OIDC_AUDIENCE"}
 	}
 
 	ctx := context.TODO()
@@ -94,7 +98,9 @@ func setup6(args ...string) (handler.Handler6, error) {
 	if err := initHollowClient(args...); err != nil {
 		return nil, err
 	}
+
 	log.Info("loaded hollow plugin for DHCPv6")
+
 	return hollowHandler6, nil
 }
 
@@ -102,7 +108,9 @@ func setup4(args ...string) (handler.Handler4, error) {
 	if err := initHollowClient(args...); err != nil {
 		return nil, err
 	}
+
 	log.Info("loaded hollow plugin for DHCPv4")
+
 	return hollowHandler4, nil
 }
 
@@ -151,7 +159,7 @@ func hollowHandler4(req, resp *dhcpv4.DHCPv4) (*dhcpv4.DHCPv4, bool) {
 	log.Debugf("Received DHCPv4 packet: %s", req.Summary())
 	mac := req.ClientHWAddr.String()
 
-	cfg, hostname, err := getV4Config(mac)
+	cfg, hostname, err := getV4Lease(mac)
 	if err != nil {
 		log.Warningf("No IPs found for MAC %s: %v", mac, err)
 		return resp, false
@@ -170,7 +178,7 @@ func hollowHandler4(req, resp *dhcpv4.DHCPv4) (*dhcpv4.DHCPv4, bool) {
 	resp.Options.Update(dhcpv4.OptRouter(cfg.Gateway))
 
 	// default lifetime, can be overridden by other plugins
-	resp.Options.Update(dhcpv4.OptIPAddressLeaseTime(3600 * time.Second))
+	resp.Options.Update(dhcpv4.OptIPAddressLeaseTime(defaultLeaseDuration))
 
 	if req.IsOptionRequested(dhcpv4.OptionDomainNameServer) && len(cfg.Resolvers) != 0 {
 		resp.Options.Update(dhcpv4.OptDNS(cfg.Resolvers...))

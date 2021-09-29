@@ -11,9 +11,9 @@ import (
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
-func TestGetV4Config(t *testing.T) {
-	srvCfg := DHCPConfig{
-		V4Configs: []V4Config{
+func TestGetV4Lease(t *testing.T) {
+	srvCfg := LeaseData{
+		V4Leases: []V4Lease{
 			{
 				MacAddress: "happy:mac",
 				CIDR:       "10.1.2.10/24",
@@ -95,7 +95,7 @@ func TestGetV4Config(t *testing.T) {
 			fmt.Printf("Response Body:\n%s\n", tt.responseBody)
 			hollowClient = mockServerServiceClient(string(jsonResponse), tt.responseCode)
 
-			cfg, hostname, err := getV4Config(tt.macAddress)
+			cfg, hostname, err := getV4Lease(tt.macAddress)
 
 			if tt.expectedError != nil {
 				assert.Error(t, err)

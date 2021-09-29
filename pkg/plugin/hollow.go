@@ -12,7 +12,7 @@ import (
 // DHCPAttributeNamespace is the namespace that is searched to find lease information
 const DHCPAttributeNamespace string = "sh.hollow.dhcpserver.lease"
 
-func getV4Config(mac string) (*V4Config, string, error) {
+func getV4Lease(mac string) (*V4Lease, string, error) {
 	ctx := context.TODO()
 
 	mac = strings.ToLower(mac)
@@ -44,7 +44,7 @@ func getV4Config(mac string) (*V4Config, string, error) {
 	srv := r[0]
 	hostname := srv.Name
 
-	var cfg *DHCPConfig
+	var leaseData *LeaseData
 
 	for _, attr := range srv.Attributes {
 		if attr.Namespace != DHCPAttributeNamespace {
@@ -56,16 +56,16 @@ func getV4Config(mac string) (*V4Config, string, error) {
 			return nil, "", err
 		}
 
-		if err := json.Unmarshal(jsonData, &cfg); err != nil {
+		if err := json.Unmarshal(jsonData, &leaseData); err != nil {
 			return nil, "", err
 		}
 
 		break
 	}
 
-	for _, v4Cfg := range cfg.V4Configs {
-		if v4Cfg.MacAddress == mac {
-			return &v4Cfg, hostname, nil
+	for _, lease := range leaseData.V4Leases {
+		if lease.MacAddress == mac {
+			return &lease, hostname, nil
 		}
 	}
 
