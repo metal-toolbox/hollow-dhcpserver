@@ -22,8 +22,7 @@ type V4Lease struct {
 type V6Lease struct {
 	MacAddress string   `json:"mac_address"`
 	CIDR       string   `json:"cidr"`
-	Netmask    string   `json:"netmask"`
-	Gateway    string   `json:"gateway"`
+	Gateway    net.IP   `json:"gateway"`
 	Resolvers  []string `json:"resolvers,omitempty"`
 	BootServer string   `json:"boot_server,omitempty"`
 	BootFile   string   `json:"boot_file,omitempty"`
