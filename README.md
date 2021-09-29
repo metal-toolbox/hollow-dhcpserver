@@ -1,4 +1,7 @@
-# Hollow CoreDHCP Plugin
+# Hollow CoreDHCP Plugin & DHCP Server Build
+
+[![codecov](https://codecov.io/gh/metal-toolbox/hollow-dhcpserver/branch/main/graph/badge.svg?token=xXNVOjjWJ7)](https://codecov.io/gh/metal-toolbox/hollow-dhcpserver)
+
 
 This provides a plugin that can be used for serving dhcp request from hollow data sources.
 
