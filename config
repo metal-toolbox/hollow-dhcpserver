@@ -1,0 +1,4 @@
+server4:
+  plugins:
+    - dns: 1.1.1.1 1.0.0.1
+    - hollow: http://serverservice:8000

@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  dhcpserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - HOLLOWDHCP_AUTH_TOKEN="dev"
+    ports:
+      - "547:547/udp"
+    depends_on:
+      - serverservice
+    restart: unless-stopped
+    networks:
+      - hollow_dhcp
+
+
+  serverservice:
+    image: ghcr.io/metal-toolbox/hollow-serverservice:v0.13.0
+    depends_on:
+      - crdb
+      - serverservice-migrate
+    environment:
+      - SERVERSERVICE_OIDC_ENABLED=false
+      - SERVERSERVICE_DB_URI=postgresql://root@crdb:26257/defaultdb?sslmode=disable
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - hollow_dhcp
+
+  serverservice-migrate:
+    image: ghcr.io/metal-toolbox/hollow-serverservice:v0.13.0
+    command:
+      migrate up
+    depends_on:
+      - crdb
+    environment:
+      - SERVERSERVICE_DB_URI=postgresql://root@crdb:26257/defaultdb?sslmode=disable
+    restart: on-failure
+    networks:
+      - hollow_dhcp
+
+  crdb:
+    image: cockroachdb/cockroach:latest-v21.1
+    volumes:
+      - db:/cockroach/cockroach-data
+    command: start-single-node --insecure
+    restart: unless-stopped
+    networks:
+      - hollow_dhcp
+
+volumes:
+  db:
+
+networks:
+  hollow_dhcp:
