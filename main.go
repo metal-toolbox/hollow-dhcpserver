@@ -1,5 +1,6 @@
 // This is a generated file, edits should be made in the corresponding source file
 // And this file regenerated using `coredhcp-generator --from core-plugins.txt`
+// nolint
 package main
 
 import (

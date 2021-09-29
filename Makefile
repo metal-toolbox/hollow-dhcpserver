@@ -1,16 +1,19 @@
 all: lint test
 PHONY: test coverage lint golint clean vendor local-dev-databases docker-up docker-down integration-test unit-test
 GOOS=linux
+OS_NAME := $(shell uname -s | tr A-Z a-z)
+GOLANGCILINTCMD :=$(if ifeq darwin $(OS_NAME), docker run --rm -v $(shell pwd):/app -w /app golangci/golangci-lint:v1.42 golangci-lint, golangci-lint)
+GOCMD :=$(if ifeq darwin $(OS_NAME), docker run --rm -v $(shell pwd):/app -w /app golang:1.17 go, go)
 
 test: | unit-test
 
 unit-test: | lint
 	@echo Running unit tests...
-	@go test -cover -short -tags testtools ./...
+	@$(GOCMD) test -cover -short -tags testtools ./...
 
 coverage:
 	@echo Generating coverage report...
-	@go test ./... -race -coverprofile=coverage.out -covermode=atomic -tags testtools -p 1
+	@$(GOCMD) test ./... -race -coverprofile=coverage.out -covermode=atomic -tags testtools -p 1
 	@go tool cover -func=coverage.out
 	@go tool cover -html=coverage.out
 
@@ -18,7 +21,7 @@ lint: golint
 
 golint: | vendor
 	@echo Linting Go files...
-	@golangci-lint run
+	@$(GOLANGCILINTCMD) run
 
 clean: docker-clean
 	@echo Cleaning...
