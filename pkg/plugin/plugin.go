@@ -34,6 +34,20 @@ func initHollowClient(args ...string) error {
 		return nil
 	}
 
+	if len(args) != 1 {
+		return fmt.Errorf("got %d arguments, want 1", len(args))
+	}
+	uri, err := url.Parse(args[0])
+	if err != nil {
+		return fmt.Errorf("invalid URL '%s': %v", args[0], err)
+	}
+
+	if os.Getenv("HOLLOWDHCP_AUTH_TOKEN") != "" {
+		hollowClient, err = serverservice.NewClientWithToken(os.Getenv("HOLLOWDHCP_AUTH_TOKEN"), uri.String(), nil)
+
+		return err
+	}
+
 	oidcIssuer := os.Getenv("HOLLOWDHCP_OIDC_ISSUER")
 	if oidcIssuer == "" {
 		return fmt.Errorf("expected HOLLOWDHCP_OIDC_ISSUER to be set")
@@ -71,15 +85,7 @@ func initHollowClient(args ...string) error {
 		EndpointParams: url.Values{"audience": []string{oidcAudience}},
 	}
 
-	if len(args) != 1 {
-		return fmt.Errorf("got %d arguments, want 1", len(args))
-	}
-	u, err := url.Parse(args[0])
-	if err != nil {
-		return fmt.Errorf("invalid URL '%s': %v", args[0], err)
-	}
-
-	hollowClient, err = serverservice.NewClient(u.String(), oauthConfig.Client(ctx))
+	hollowClient, err = serverservice.NewClient(uri.String(), oauthConfig.Client(ctx))
 
 	return err
 }
@@ -88,7 +94,7 @@ func setup6(args ...string) (handler.Handler6, error) {
 	if err := initHollowClient(args...); err != nil {
 		return nil, err
 	}
-	log.Info("Loaded hollow plugin for DHCPv6.")
+	log.Info("loaded hollow plugin for DHCPv6")
 	return hollowHandler6, nil
 }
 
@@ -96,7 +102,7 @@ func setup4(args ...string) (handler.Handler4, error) {
 	if err := initHollowClient(args...); err != nil {
 		return nil, err
 	}
-	log.Info("Loaded hollow plugin for DHCPv4.")
+	log.Info("loaded hollow plugin for DHCPv4")
 	return hollowHandler4, nil
 }
 

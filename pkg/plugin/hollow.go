@@ -3,7 +3,6 @@ package plugin
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"strings"
 
@@ -35,11 +34,11 @@ func getV4Config(mac string) (*V4Config, string, error) {
 	}
 
 	if len(r) == 0 {
-		return nil, "", errors.New("no server dhcp lease found with MAC")
+		return nil, "", ErrNoLeaseFound
 	}
 
 	if len(r) != 1 {
-		return nil, "", errors.New("found multiple servers with the MAC, failing")
+		return nil, "", ErrDuplicateLeaseFound
 	}
 
 	srv := r[0]
@@ -70,5 +69,6 @@ func getV4Config(mac string) (*V4Config, string, error) {
 		}
 	}
 
-	return nil, "", nil
+	// if we made it here we didn't find a lease that matches the MAC address
+	return nil, "", ErrNoLeaseFound
 }
