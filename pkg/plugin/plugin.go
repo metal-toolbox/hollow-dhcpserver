@@ -2,7 +2,6 @@ package plugin
 
 import (
 	"context"
-	"fmt"
 	"net"
 	"net/url"
 	"os"
@@ -38,7 +37,7 @@ func initHollowClient(args ...string) error {
 	}
 
 	if len(args) != 1 {
-		return fmt.Errorf("got %d arguments, want 1", len(args))
+		return &ErrInvalidArgCount{Expected: 1, Provided: len(args)}
 	}
 
 	uri, err := url.Parse(args[0])
