@@ -8,7 +8,7 @@ require (
 	github.com/insomniacslk/dhcp v0.0.0-20210827173440-b95caade3eac
 	github.com/sirupsen/logrus v1.7.0
 	github.com/spf13/pflag v1.0.6-0.20201009195203-85dd5c8bc61c
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.7.1
 	go.hollow.sh/serverservice v0.13.0
 	go.hollow.sh/toolbox v0.0.0-20210826144247-5ed6c7643625
 	golang.org/x/oauth2 v0.0.0-20210402161424-2e8d93401602
