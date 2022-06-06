@@ -17,7 +17,7 @@ RUN go mod tidy -compat=1.17
 # -mod=readonly ensures immutable go.mod and go.sum in container builds.
 RUN CGO_ENABLED=0 GOOS=linux go build -mod=readonly -v -o dhcpserver
 
-FROM alpine:3 as alpine
+FROM alpine:20220328 as alpine
 RUN apk add --no-cache ca-certificates
 
 FROM scratch
