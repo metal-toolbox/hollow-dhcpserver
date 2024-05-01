@@ -73,6 +73,8 @@ github.com/cockroachdb/apd v1.1.0/go.mod h1:8Sl8LxpKi29FqWXR16WEFZRNSz3SoPzUzeMe
 github.com/cockroachdb/cockroach-go/v2 v2.1.1 h1:3XzfSMuUT0wBe1a3o5C0eOTcArhmmFAg2Jzh/7hhKqo=
 github.com/coredhcp/coredhcp v0.0.0-20210830115404-2176f33418f4 h1:IL5Jxpu4sNZSyeQBYiG+TG1PtMEmZ/cNhsHm5Xk66aY=
 github.com/coredhcp/coredhcp v0.0.0-20210830115404-2176f33418f4/go.mod h1:IKpQDuJjj7hRXIaidZ6e4o9FIPFOW2fEQBJEx3IeOGk=
+github.com/coredhcp/coredhcp v0.0.0-20220602152301-a2552c5c1b7a h1:v7KPOqzuidxzszBHoMACwhmKTylwShPLGlbqFJy7gA4=
+github.com/coredhcp/coredhcp v0.0.0-20220602152301-a2552c5c1b7a/go.mod h1:8eZF6Wd11nVtN5u8TaUUIDB5wC7u439e98vpxagG44Q=
 github.com/coreos/bbolt v1.3.2/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=
 github.com/coreos/etcd v3.3.10+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
 github.com/coreos/etcd v3.3.13+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=

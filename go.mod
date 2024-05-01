@@ -3,7 +3,7 @@ module go.hollow.sh/dhcpserver
 go 1.17
 
 require (
-	github.com/coredhcp/coredhcp v0.0.0-20210830115404-2176f33418f4
+	github.com/coredhcp/coredhcp v0.0.0-20220602152301-a2552c5c1b7a
 	github.com/friendsofgo/errors v0.9.2
 	github.com/insomniacslk/dhcp v0.0.0-20210827173440-b95caade3eac
 	github.com/sirupsen/logrus v1.8.1
