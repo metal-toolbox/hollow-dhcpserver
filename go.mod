@@ -11,7 +11,7 @@ require (
 	github.com/stretchr/testify v1.7.1
 	go.hollow.sh/serverservice v0.13.0
 	go.hollow.sh/toolbox v0.0.0-20210826144247-5ed6c7643625
-	golang.org/x/oauth2 v0.0.0-20210402161424-2e8d93401602
+	golang.org/x/oauth2 v0.21.0
 )
 
 require (
